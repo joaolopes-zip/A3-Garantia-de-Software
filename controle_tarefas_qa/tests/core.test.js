@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { adicionarTarefa, editarTarefa, excluirTarefa, alterarStatus, validarTarefa, salvarTarefas, carregarTarefas } from '../core.js';
+const dados = {titulo:'Estudar SQL', descricao:'Revisar SELECT', responsavel:'Ana', vencimento:'2026-12-01', status:'Pendente'};
+const storageFake = () => { const m = new Map(); return {setItem:(k,v)=>m.set(k,v),getItem:k=>m.get(k)??null}; };
+test('CT01 - cadastra tarefa válida',()=>{const r=adicionarTarefa([],dados,'1');assert.equal(r.length,1);assert.equal(r[0].titulo,'Estudar SQL');});
+test('CT02 - rejeita tarefa sem título',()=>{assert.ok(validarTarefa({...dados,titulo:''}).includes('O título é obrigatório.'));assert.throws(()=>adicionarTarefa([],{...dados,titulo:''},'2'),/título é obrigatório/);});
+test('CT03 - exclui tarefa existente',()=>{assert.equal(excluirTarefa([{...dados,id:'1'}],'1').length,0);});
+test('CT04 - altera status',()=>{assert.equal(alterarStatus([{...dados,id:'1'}],'1','Concluída')[0].status,'Concluída');});
+test('CT05 - mantém dados após salvar e carregar',()=>{const s=storageFake();const arr=[{...dados,id:'1'}];salvarTarefas(s,arr);assert.deepEqual(carregarTarefas(s),arr);});
+test('CT06 - edita dados sem duplicar tarefa',()=>{const r=editarTarefa([{...dados,id:'1'}],'1',{...dados,titulo:'SQL avançado'});assert.equal(r.length,1);assert.equal(r[0].titulo,'SQL avançado');});
+test('CT07 - rejeita responsável vazio',()=>{assert.ok(validarTarefa({...dados,responsavel:' '}).some(e=>e.includes('responsável')));});
+test('CT08 - rejeita status inválido',()=>{assert.throws(()=>alterarStatus([{...dados,id:'1'}],'1','Cancelada'),/Status inválido/);});
+test('CT09 - edição de ID inexistente é rejeitada',()=>{assert.throws(()=>editarTarefa([],'x',dados),/não encontrada/);});
+test('CT10 - JSON corrompido não derruba carregamento',()=>{const s={getItem:()=>'{inválido'};assert.deepEqual(carregarTarefas(s),[]);});

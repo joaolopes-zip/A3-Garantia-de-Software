@@ -1,0 +1,74 @@
+
+> taskflow-ibmr-qa@1.0.0 test
+> node --test tests/*.test.js
+
+TAP version 13
+# Subtest: CT01 - cadastra tarefa válida
+ok 1 - CT01 - cadastra tarefa válida
+  ---
+  duration_ms: 0.801814
+  type: 'test'
+  ...
+# Subtest: CT02 - rejeita tarefa sem título
+ok 2 - CT02 - rejeita tarefa sem título
+  ---
+  duration_ms: 0.408063
+  type: 'test'
+  ...
+# Subtest: CT03 - exclui tarefa existente
+ok 3 - CT03 - exclui tarefa existente
+  ---
+  duration_ms: 0.192278
+  type: 'test'
+  ...
+# Subtest: CT04 - altera status
+ok 4 - CT04 - altera status
+  ---
+  duration_ms: 0.128393
+  type: 'test'
+  ...
+# Subtest: CT05 - mantém dados após salvar e carregar
+ok 5 - CT05 - mantém dados após salvar e carregar
+  ---
+  duration_ms: 0.78571
+  type: 'test'
+  ...
+# Subtest: CT06 - edita dados sem duplicar tarefa
+ok 6 - CT06 - edita dados sem duplicar tarefa
+  ---
+  duration_ms: 0.150436
+  type: 'test'
+  ...
+# Subtest: CT07 - rejeita responsável vazio
+ok 7 - CT07 - rejeita responsável vazio
+  ---
+  duration_ms: 0.123616
+  type: 'test'
+  ...
+# Subtest: CT08 - rejeita status inválido
+ok 8 - CT08 - rejeita status inválido
+  ---
+  duration_ms: 0.106239
+  type: 'test'
+  ...
+# Subtest: CT09 - edição de ID inexistente é rejeitada
+ok 9 - CT09 - edição de ID inexistente é rejeitada
+  ---
+  duration_ms: 0.237597
+  type: 'test'
+  ...
+# Subtest: CT10 - JSON corrompido não derruba carregamento
+ok 10 - CT10 - JSON corrompido não derruba carregamento
+  ---
+  duration_ms: 0.344548
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 61.413084
